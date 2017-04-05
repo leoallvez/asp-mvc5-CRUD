@@ -1,0 +1,56 @@
+﻿
+<!--
+    Código Razor: define que a visão recebe e que será definido
+    como Model para ela.
+    A	declaração	de	Model	no	início	da	visão	pode	ser	vista	como
+uma	 analogia	 a	 declaração	 de	 um	 método	 e	 seus	 parâmetros.	
+-->
+@model IEnumerable<Projeto01.Models.Categoria>
+<!-- * ASP.NET	Razor	é	uma	view	engine	(ferramenta	para	geração
+de	 visões) que	 possibilita	 a	 inserção	 de	 lógica	 da	 aplicação	 nas
+visões.	Sua	sintaxe	é	simplificada	e	tem	como	base	o	C#.-->
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <p>
+        <!-- A HTML Helper ActionLink() representa um link para uma action. 
+            Este	método	 retorna	um	elemento	de	âncora	do	HTML	 (o	 <a href>	 )
+         -->
+        @Html.ActionLink("Criar	 nova	 categoria", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                <!-- A HTML Helper DisplayNameFor() define o título da coluna. -->
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th></th>
+        </tr>
+    <!-- Foreach renderizar as linhas da tabela -->
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                <!--Este	método	obtém	o	conteúdo	da	propriedade	a	ser	exibida-->
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                <!--Links para alteraçã exclusão e visualização-->
+                @Html.ActionLink("Edit", "Edit", new { id=item.CategoriaId }) |
+                @Html.ActionLink("Details", "Details", new { id=item.CategoriaId }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.CategoriaId })
+            </td>
+        </tr>
+    }
+    
+    </table>
+</body>
+</html>

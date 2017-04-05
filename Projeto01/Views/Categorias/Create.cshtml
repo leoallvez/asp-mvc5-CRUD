@@ -1,0 +1,55 @@
+﻿@model Projeto01.Models.Categoria
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Criar Categoria</title>
+</head>
+<body>
+    <!-- Definindo Jquery para validação navegador -->
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    
+    <!-- using	(Html.BeginForm()) {} delimita o formulário HTML. -->
+    @using (Html.BeginForm()) 
+    {
+        <!-- Request Forgery: evita ataque Cross Site -->
+        @Html.AntiForgeryToken()
+        
+        <div class="form-horizontal">
+            <h4>Categoria</h4>
+            <hr />
+            <!-- Html.ValidationSummary(true,"",	new{ class = "text-danger" }) renderizará	na	visão todos os erros de	 validação,	 do	 modelo. -->
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <!-- renderizará o	nome da propriedade	 retornada	pela expressão	lambda.-->
+                @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <!-- Html.EditorFor() gerará um	controle de	edição para	a propriedade em questão-->
+                    @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
+                    <!-- apresenta	uma	mensagem de	erro, porém	de	forma individualizada, abaixo do	
+                    controle que acusou	problemas referentes à validação.-->
+                    @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+                </div>
+            </div>
+    
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Adicionar categoria" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+    
+    <div>
+        @Html.ActionLink("Retormar para a listagem", "Index")
+    </div>
+</body>
+</html>
