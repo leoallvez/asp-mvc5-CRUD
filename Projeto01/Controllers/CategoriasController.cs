@@ -40,7 +40,8 @@ namespace Projeto01.Controllers
         // GET: Categorias
         public ActionResult Index()
         {
-            return View(categorias);
+            return View(categorias.OrderBy(c => c.Nome));
+            //return View(categorias);
         }
         //GET: Create
         public ActionResult Create()
@@ -59,6 +60,42 @@ namespace Projeto01.Controllers
             return RedirectToAction("Index");
 
         }
+        /**recuperando	o	primeiro	objeto	que
+        tenha na  propriedade CategoriaId*/
+        //GET: Post
+        public ActionResult Edit(long id)
+        {
+            return View(categorias.Where( m => m.CategoriaId == id).First());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Categoria categoria)
+        {
+            categorias.Remove(categorias.Where(c => c.CategoriaId == categoria.CategoriaId).First());
+            categorias.Add(categoria);
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Details(long id)
+        {
+            return View(categorias.Where(m => m.CategoriaId == id).First());
+        }
+
+        public ActionResult Delete(long id)
+        {
+            return View(categorias.Where(m => m.CategoriaId == id).First());
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(Categoria categoria)
+        {
+            categorias.Remove(categorias.Where(
+                            c => c.CategoriaId == categoria.CategoriaId)
+                            .First());
+            return RedirectToAction("Index");
+        }
+
 
     }
 }
