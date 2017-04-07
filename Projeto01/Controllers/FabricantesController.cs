@@ -30,6 +30,7 @@ namespace Projeto01.Controllers
         {
             context.Fabricantes.Add(fabricante);
             context.SaveChanges();
+            TempData["Message"] = "Fabricante " + fabricante.Nome.ToUpper() + " foi criado";
             return RedirectToAction("Index");
 
         }
@@ -67,8 +68,9 @@ namespace Projeto01.Controllers
             {
                 context.Entry(fabricante).State = EntityState.Modified;
                 context.SaveChanges();
+                TempData["Message"] = "Fabricante " + fabricante.Nome.ToUpper() + " foi alterado";
             }
-            return View(fabricante);
+            return RedirectToAction("Index");
         }
 
         public ActionResult Details(long? id)
@@ -111,7 +113,8 @@ namespace Projeto01.Controllers
             Fabricante fabricante = context.Fabricantes.Find(id);
             context.Fabricantes.Remove(fabricante);
             context.SaveChanges();
-
+            //O	TempData armazena um valor em uma curta sessão de tempo.
+            TempData["Message"] = "Fabricante " + fabricante.Nome.ToUpper() + " foi removido";
             return RedirectToAction("Index");
         }
     }

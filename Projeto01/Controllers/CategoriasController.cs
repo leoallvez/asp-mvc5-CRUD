@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Projeto01.Models;
-using System.Linq; //Obriga
-
+using System.Linq; 
 using Projeto01.Contexts;
-using Projeto01.Models;
 using System.Web.Mvc;
 using System.Net;
 using System.Data.Entity;
@@ -37,56 +35,85 @@ namespace Projeto01.Controllers
         /**recuperando	o	primeiro	objeto	que
         tenha na  propriedade CategoriaId*/
         //GET: Post
-        public ActionResult Edit(long id)
+        public ActionResult Edit(long? id)
         {
-
-
             if (id == null)
             {
                 // Retornando um Erro.
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            // Buscando fabricante.
-            Fabricante categoria = context.Categorias.Find(id);
+            // Buscando categoria.
+            Categoria categoria = context.Categorias.Find(id);
 
-            if (fabricante == null)
+            if (categoria == null)
             {
                 //HTTP 404.	
                 return HttpNotFound();
             }
 
-            return View(fabricante);
+            return View(categoria);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Categoria categoria)
         {
-            categorias.Remove(categorias.Where(c => c.CategoriaId == categoria.CategoriaId).First());
-            categorias.Add(categoria);
-            return RedirectToAction("Index");
+            /** 
+             * Verificar se o estado do model é válido, como por exemplo
+             * se um campo obrigatório foi preenchido.
+             */
+            if (ModelState.IsValid)
+            {
+                context.Entry(categoria).State = EntityState.Modified;
+                context.SaveChanges();
+            }
+            return View(categoria);
         }
 
-        public ActionResult Details(long id)
+        public ActionResult Details(long? id)
         {
-            return View(categorias.Where(m => m.CategoriaId == id).First());
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Categoria categoria = context.Categorias.Find(id);
+
+            if (categoria == null)
+            {
+                return HttpNotFound();
+            }
+            return View(categoria);
         }
 
-        public ActionResult Delete(long id)
+        public ActionResult Delete(long? id)
         {
-            return View(categorias.Where(m => m.CategoriaId == id).First());
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Categoria categoria = context.Categorias.Find(id);
+
+            if (categoria == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(categoria);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(Categoria categoria)
+        public ActionResult Delete(long id)
         {
-            categorias.Remove(categorias.Where(c => c.CategoriaId == categoria.CategoriaId).First());
+
+            Categoria categoria = context.Categorias.Find(id);
+            context.Categorias.Remove(categoria);
+            context.SaveChanges();
+
             return RedirectToAction("Index");
         }
-
-
-
 
     }
 }
