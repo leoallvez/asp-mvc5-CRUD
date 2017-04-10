@@ -9,5 +9,8 @@ namespace Projeto01.Models
     {
         public long CategoriaId { get; set; }
         public string Nome { get; set; }
+
+        //Uma Categoria pode ter N produtos
+        public virtual ICollection<Produto> Produtos { get; set; }
     }
 }

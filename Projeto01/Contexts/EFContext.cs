@@ -20,7 +20,9 @@ namespace Projeto01.Contexts
         argumento refere-se ao  nome de  uma Connection   String*/
 
         //Note que o construtor estende a execução do construtor da  classe	 base.
-        public EFContext() : base("Asp_Net_MVC_CS") {}
+        public EFContext() : base("Asp_Net_MVC_CS") {
+            Database.SetInitializer<EFContext>( new DropCreateDatabaseIfModelChanges <EFContext>());
+        }
 
         /**
          * DbSet
@@ -30,6 +32,7 @@ namespace Projeto01.Contexts
          */
         public DbSet<Categoria> Categorias { get; set; }
         public DbSet<Fabricante> Fabricantes { get; set; }
+        public DbSet<Produto> Produtos { get; set; }
     }
 }
  
