@@ -13,6 +13,7 @@ namespace Projeto01.Controllers
     public class FabricantesController : Controller
     {
         private EFContext context = new EFContext();
+
         // GET: Fabricantes
         public ActionResult Index()
         {
@@ -52,7 +53,7 @@ namespace Projeto01.Controllers
                 //HTTP 404.	
                 return HttpNotFound();
             }
-
+            // Envinado fabricante para a View.
             return View(fabricante);
         }
 
@@ -70,6 +71,7 @@ namespace Projeto01.Controllers
                 context.SaveChanges();
                 TempData["Message"] = "Fabricante " + fabricante.Nome.ToUpper() + " foi alterado";
             }
+
             return RedirectToAction("Index");
         }
 
@@ -80,7 +82,6 @@ namespace Projeto01.Controllers
                 return new HttpStatusCodeResult( HttpStatusCode.BadRequest);
             }
 
-            //Fabricante fabricante = context.Fabricantes.Where(f => f.FabricanteId == id).Include("Produto.Categoria").First();
             Fabricante fabricante = context.Fabricantes.Where(f => f.FabricanteId == id).Include("Produtos.Categoria").First();
 
             if (fabricante == null)
@@ -92,7 +93,7 @@ namespace Projeto01.Controllers
 
         public ActionResult Delete(long? id)
         {
-            if( id == null)
+            if( id == null )
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
